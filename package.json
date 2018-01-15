@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "babel-preset-hyperapp": "^2.3.0",
+    "hyperapp": "^1.0.1",
+    "parcel-bundler": "^1.4.1",
+    "picostyle": "^0.2.0"
+  },
+  "scripts": {
+    "dev": "./node_modules/.bin/parcel index.html"
+  }
+}
