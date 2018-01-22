@@ -69,7 +69,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({3:[function(require,module,exports) {
+})({6:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -353,7 +353,7 @@ function app(state, actions, view, container) {
     return element;
   }
 }
-},{}],4:[function(require,module,exports) {
+},{}],7:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -419,7 +419,7 @@ function parse(decls, child, media, className) {
   insert(createRule(concat(className, child), decls, media));
   return className;
 }
-},{}],2:[function(require,module,exports) {
+},{}],3:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -436,87 +436,159 @@ var _picostyle2 = _interopRequireDefault(_picostyle);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ps = (0, _picostyle2.default)(_hyperapp.h);
+
 var STORAGE_KEY = 'MyNameIsBond';
 
+var fetchTodos = function fetchTodos() {
+  return JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || [];
+};
+
 var state = {
-  text: '',
-  todos: []
+  todoValue: '',
+  todos: fetchTodos()
 };
 
 var actions = {
-  changeText: function changeText(input) {
+  onInput: function onInput(value) {
     return function (state) {
-      state.text = input;
+      state.todoValue = value;
     };
   },
 
   addTodo: function addTodo() {
-    return function (state, actions) {
-      // validate empty text
-      if (!state.text.length) return;
-      state.todos.push(state.text);
-      actions.todosAddID();
-      actions.setDataToLocalStorage(actions.todosMakesJson());
-      state.text = '';
+    return function (state) {
+      if (!state.todoValue.length) return;
+      state.todos.push({
+        id: state.todos.length,
+        value: state.todoValue,
+        completed: false
+      });
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state.todos));
+      state.todoValue = '';
       return state.todos;
     };
   },
 
-  // TODO: All array loop, because make wrong json
-  // EX {"id": "1", "todo": {.....},...}
-  todosAddID: function todosAddID() {
+  removeTodo: function removeTodo(id) {
     return function (state) {
-      debugger;
-      var tmp = state.todos.map(function (todo, index) {
-        return {
-          id: index,
-          todo: todo
-        };
-        state.todos = tmp;
-        return state.todos;
+      state.todos = state.todos.filter(function (todo) {
+        return todo.id !== id;
       });
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state.todos));
+      return state.todos;
     };
   },
 
-  todosMakesJson: function todosMakesJson() {
+  handleCheckbox: function handleCheckbox(index) {
     return function (state) {
-      return JSON.stringify(state.todos);
-    };
-  },
-
-  setDataToLocalStorage: function setDataToLocalStorage(json) {
-    return function (state) {
-      window.localStorage.setItem(STORAGE_KEY, json);
+      state.todos[index].completed = !state.todos[index].completed;
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state.todos));
+      return state.todos;
     };
   }
 };
 
 var view = function view(state, actions) {
-  var TodoInput = ps('input')({
-    padding: '4px',
-    // borderRadius: '3px',
-    outline: '0'
+  var Wrapper = ps('main')({
+    width: '700px',
+    textAlign: 'center',
+    margin: '24px auto 0 auto',
+    background: '#fff'
+    // display: 'flex',
+    // alignItems: 'center',
+    // // flexDirection: 'column',
   });
 
+  var Title = ps('h1')({
+    color: '#24b47e',
+    fontSize: '100px',
+    fontWeight: '500',
+    textTransform: 'uppercase'
+  });
+
+  var TodoInput = ps('input')({
+    boxSizing: 'border-box',
+    width: '100%',
+    padding: '16px',
+    fontSize: '24px',
+    outline: '0',
+    color: '#6b7c93',
+    fontWeight: '100',
+    borderRadius: '3px',
+    border: '1px solid #fff',
+    ':focus': {},
+    '::placeholder': {
+      opacity: '.5'
+    }
+  });
+
+  var Checkbox = ps('input')({
+    borderRadius: '50%'
+  });
+  var TodoLists = ps('ul')({
+    width: '100%',
+    listStyleType: 'none'
+  });
+
+  var TodoListsItem = ps('li')({
+    display: 'inline-block',
+    '.completed': {
+      opacity: '.5',
+      textDecoration: 'line-through'
+    }
+  });
   return (0, _hyperapp.h)(
-    "main",
+    Wrapper,
     null,
-    (0, _hyperapp.h)(TodoInput, { value: state.text, oninput: function oninput(e) {
-        return actions.changeText(e.target.value);
-      } }),
     (0, _hyperapp.h)(
-      "button",
-      { onclick: actions.addTodo },
-      "Add"
-    ),
-    (0, _hyperapp.h)(
-      "ul",
+      Title,
       null,
-      state.todos.map(function (n) {
+      "todos"
+    ),
+    (0, _hyperapp.h)(TodoInput, {
+      type: "text",
+      placeholder: "What's needs to be done?",
+      value: state.todoValue,
+      oninput: function oninput(e) {
+        return actions.onInput(e.target.value);
+      },
+      onkeydown: function onkeydown(e) {
+        return e.keyCode === 13 ? actions.addTodo : '';
+      }
+    }),
+    (0, _hyperapp.h)(
+      TodoLists,
+      null,
+      state.todos.map(function (todo, index) {
         return (0, _hyperapp.h)(
-          "li",
+          "div",
           null,
-          n.todo
+          (0, _hyperapp.h)("input", {
+            type: "checkbox",
+            checked: todo.completed,
+            onclick: function onclick() {
+              return actions.handleCheckbox(index);
+            },
+            onkeydown: function onkeydown(e) {
+              return e.keyCode === 13 ? actions.addTodo : '';
+            }
+          }),
+          (0, _hyperapp.h)(
+            TodoListsItem,
+            {
+              "class": todo.completed ? "completed" : ""
+            },
+            todo.value
+          ),
+          (0, _hyperapp.h)(
+            "span",
+            {
+              onclick: function onclick() {
+                return actions.removeTodo(todo.id);
+              }
+            },
+            "\xD7"
+          )
         );
       })
     )
@@ -524,7 +596,7 @@ var view = function view(state, actions) {
 };
 
 var main = exports.main = (0, _hyperapp.app)(state, actions, view, document.body);
-},{"hyperapp":3,"picostyle":4}],0:[function(require,module,exports) {
+},{"hyperapp":6,"picostyle":7}],0:[function(require,module,exports) {
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
 function Module() {
@@ -542,7 +614,7 @@ function Module() {
 module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
-  var ws = new WebSocket('ws://' + window.location.hostname + ':49712/');
+  var ws = new WebSocket('ws://' + window.location.hostname + ':63733/');
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 
@@ -643,4 +715,4 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id)
   });
 }
-},{}]},{},[0,2])
+},{}]},{},[0,3])
