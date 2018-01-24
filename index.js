@@ -4,15 +4,21 @@ import picostyle from 'picostyle'
 const ps = picostyle(h)
 
 const STORAGE_KEY = 'MyNameIsBond'
+const WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 const fetchTodos = () => {
   return JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || []
 }
 
+const dayName = () => {
+  const today = new Date()
+  return WEEK[today.getDay()]
+}
+
 const state = {
   todoValue: '',
   todos: fetchTodos(),
-  week: 'Monday',
+  dayName: dayName()
 }
 
 const actions = {
@@ -42,7 +48,7 @@ const actions = {
     state.todos[index].completed = !state.todos[index].completed
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state.todos))
     return state.todos
-  }
+  },
 }
 
 const view = (state, actions) => {
@@ -92,7 +98,7 @@ const view = (state, actions) => {
   return(
     <Wrapper>
       <Content>
-        <Week>{ state.week }</Week>
+        <Week>{ state.dayName }</Week>
         <TodoLists>
         {
           state.todos.map((todo, index) => {

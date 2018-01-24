@@ -438,15 +438,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ps = (0, _picostyle2.default)(_hyperapp.h);
 
 var STORAGE_KEY = 'MyNameIsBond';
+var WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 var fetchTodos = function fetchTodos() {
   return JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || [];
 };
 
+var dayName = function dayName() {
+  var today = new Date();
+  return WEEK[today.getDay()];
+};
+
 var state = {
   todoValue: '',
   todos: fetchTodos(),
-  week: 'Monday'
+  dayName: dayName()
 };
 
 var actions = {
@@ -541,7 +547,7 @@ var view = function view(state, actions) {
       (0, _hyperapp.h)(
         Week,
         null,
-        state.week
+        state.dayName
       ),
       (0, _hyperapp.h)(
         TodoLists,
