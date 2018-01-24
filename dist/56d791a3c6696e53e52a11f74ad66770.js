@@ -69,7 +69,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({6:[function(require,module,exports) {
+})({7:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -353,7 +353,7 @@ function app(state, actions, view, container) {
     return element;
   }
 }
-},{}],7:[function(require,module,exports) {
+},{}],6:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -445,7 +445,8 @@ var fetchTodos = function fetchTodos() {
 
 var state = {
   todoValue: '',
-  todos: fetchTodos()
+  todos: fetchTodos(),
+  week: 'Monday'
 };
 
 var actions = {
@@ -490,28 +491,29 @@ var actions = {
 
 var view = function view(state, actions) {
   var Wrapper = ps('main')({
-    width: '700px',
-    textAlign: 'center',
+    height: '550px',
+    width: '600px',
     margin: '24px auto 0 auto',
+    textAlign: 'center',
+    borderRadius: '3px',
     background: '#fff'
-    // display: 'flex',
-    // alignItems: 'center',
-    // // flexDirection: 'column',
   });
 
-  var Title = ps('h1')({
-    color: '#24b47e',
-    fontSize: '100px',
-    fontWeight: '500',
-    textTransform: 'uppercase'
+  var Week = ps('h1')({
+    padding: '24px 0 0 0',
+    color: '#32325d'
   });
 
   var TodoInput = ps('input')({
+    position: 'absolute',
+    bottom: '0',
+    left: '0',
     boxSizing: 'border-box',
     width: '100%',
     padding: '16px',
     fontSize: '24px',
     outline: '0',
+    background: '#f6f9fc',
     color: '#6b7c93',
     fontWeight: '100',
     borderRadius: '3px',
@@ -541,21 +543,10 @@ var view = function view(state, actions) {
     Wrapper,
     null,
     (0, _hyperapp.h)(
-      Title,
+      Week,
       null,
-      "todos"
+      state.week
     ),
-    (0, _hyperapp.h)(TodoInput, {
-      type: "text",
-      placeholder: "What's needs to be done?",
-      value: state.todoValue,
-      oninput: function oninput(e) {
-        return actions.onInput(e.target.value);
-      },
-      onkeydown: function onkeydown(e) {
-        return e.keyCode === 13 ? actions.addTodo : '';
-      }
-    }),
     (0, _hyperapp.h)(
       TodoLists,
       null,
@@ -591,12 +582,23 @@ var view = function view(state, actions) {
           )
         );
       })
-    )
+    ),
+    (0, _hyperapp.h)(TodoInput, {
+      type: "text",
+      placeholder: "What needs to be done?",
+      value: state.todoValue,
+      oninput: function oninput(e) {
+        return actions.onInput(e.target.value);
+      },
+      onkeydown: function onkeydown(e) {
+        return e.keyCode === 13 ? actions.addTodo : '';
+      }
+    })
   );
 };
 
 var main = exports.main = (0, _hyperapp.app)(state, actions, view, document.body);
-},{"hyperapp":6,"picostyle":7}],0:[function(require,module,exports) {
+},{"hyperapp":7,"picostyle":6}],0:[function(require,module,exports) {
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
 function Module() {
@@ -614,7 +616,7 @@ function Module() {
 module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
-  var ws = new WebSocket('ws://' + window.location.hostname + ':63733/');
+  var ws = new WebSocket('ws://' + window.location.hostname + ':57184/');
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 

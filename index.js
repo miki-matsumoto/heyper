@@ -11,7 +11,8 @@ const fetchTodos = () => {
 
 const state = {
   todoValue: '',
-  todos: fetchTodos()
+  todos: fetchTodos(),
+  week: 'Monday',
 }
 
 const actions = {
@@ -46,28 +47,30 @@ const actions = {
 
 const view = (state, actions) => {
   const Wrapper = ps('main')({
-    width: '700px',
-    textAlign: 'center',
+    height: '550px',
+    width: '600px',
     margin: '24px auto 0 auto',
+    textAlign: 'center',
+    borderRadius: '3px',
     background: '#fff',
-    // display: 'flex',
-    // alignItems: 'center',
-    // // flexDirection: 'column',
   })
 
-  const Title = ps('h1')({
-    color: '#24b47e',
-    fontSize: '100px',
-    fontWeight: '500',
-    textTransform: 'uppercase'
+
+  const Week = ps('h1')({
+    padding: '24px 0 0 0',
+    color: '#32325d'
   })
 
   const TodoInput = ps('input')({
+    position: 'absolute',
+    bottom: '0',
+    left: '0',
     boxSizing: 'border-box',
     width: '100%',
     padding: '16px',
     fontSize: '24px',
     outline: '0',
+    background: '#f6f9fc',
     color: '#6b7c93',
     fontWeight: '100',
     borderRadius: '3px',
@@ -96,19 +99,7 @@ const view = (state, actions) => {
   })
   return(
     <Wrapper>
-      <Title>todos</Title>
-      <TodoInput
-        type="text"
-        placeholder="What's needs to be done?"
-        value={state.todoValue}
-        oninput={e => actions.onInput(e.target.value)}
-        onkeydown={e => e.keyCode === 13 ? actions.addTodo : ''}
-      />
-      { /*<button
-        onclick={actions.addTodo}
-      >Add</button>
-        */}
-
+      <Week>{ state.week }</Week>
       <TodoLists>
       {
         state.todos.map((todo, index) => {
@@ -133,6 +124,17 @@ const view = (state, actions) => {
         })
       }
       </TodoLists>
+      <TodoInput
+        type="text"
+        placeholder="What needs to be done?"
+        value={state.todoValue}
+        oninput={e => actions.onInput(e.target.value)}
+        onkeydown={e => e.keyCode === 13 ? actions.addTodo : ''}
+      />
+      { /*<button
+        onclick={actions.addTodo}
+      >Add</button>
+        */}
     </Wrapper>
   )
 }
