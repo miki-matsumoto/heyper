@@ -1,17 +1,25 @@
+* {
+  box-sizing: border-box;
+}
+
 html, body {
   font-family: "Avenir Next W01","AvenirNextLTW01-Medium", "Hiragino Kaku Gothic Pro", "arial", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "游ゴシック", "Yu Gothi    c", "メイリオ", Meiryo, Osaka, sans-serif;
   margin: 0;
   background:#24b47e;
-  box-sizing: border-box;
   height: 100%;
 }
 
-h1 {
+h1, ul, input {
   margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+input {
+  outline: 0;
 }
 
 ul {
-  padding: 0;
   -webkit-appearance: none;
   -moz-appearance: none;
 }

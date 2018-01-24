@@ -491,109 +491,106 @@ var actions = {
 
 var view = function view(state, actions) {
   var Wrapper = ps('main')({
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center'
+  });
+
+  var Content = ps('section')({
+    position: 'relative',
     height: '550px',
-    width: '600px',
-    margin: '24px auto 0 auto',
-    textAlign: 'center',
-    borderRadius: '3px',
-    background: '#fff'
+    width: '550px',
+    background: '#fff',
+    borderRadius: '3px'
   });
 
   var Week = ps('h1')({
-    padding: '24px 0 0 0',
-    color: '#32325d'
+    margin: '24px 0 24px 0'
   });
 
   var TodoInput = ps('input')({
     position: 'absolute',
     bottom: '0',
     left: '0',
-    boxSizing: 'border-box',
     width: '100%',
     padding: '16px',
     fontSize: '24px',
-    outline: '0',
-    background: '#f6f9fc',
-    color: '#6b7c93',
-    fontWeight: '100',
-    borderRadius: '3px',
-    border: '1px solid #fff',
-    ':focus': {},
+    fontWeight: '200',
     '::placeholder': {
       opacity: '.5'
     }
   });
 
-  var Checkbox = ps('input')({
-    borderRadius: '50%'
-  });
+  var Checkbox = ps('input')({});
   var TodoLists = ps('ul')({
-    width: '100%',
     listStyleType: 'none'
   });
 
   var TodoListsItem = ps('li')({
-    display: 'inline-block',
-    '.completed': {
-      opacity: '.5',
-      textDecoration: 'line-through'
-    }
+    display: 'inline-block'
   });
   return (0, _hyperapp.h)(
     Wrapper,
     null,
     (0, _hyperapp.h)(
-      Week,
+      Content,
       null,
-      state.week
-    ),
-    (0, _hyperapp.h)(
-      TodoLists,
-      null,
-      state.todos.map(function (todo, index) {
-        return (0, _hyperapp.h)(
-          "div",
-          null,
-          (0, _hyperapp.h)("input", {
-            type: "checkbox",
-            checked: todo.completed,
-            onclick: function onclick() {
-              return actions.handleCheckbox(index);
-            },
-            onkeydown: function onkeydown(e) {
-              return e.keyCode === 13 ? actions.addTodo : '';
-            }
-          }),
-          (0, _hyperapp.h)(
-            TodoListsItem,
-            {
-              "class": todo.completed ? "completed" : ""
-            },
-            todo.value
-          ),
-          (0, _hyperapp.h)(
-            "span",
-            {
+      (0, _hyperapp.h)(
+        Week,
+        null,
+        state.week
+      ),
+      (0, _hyperapp.h)(
+        TodoLists,
+        null,
+        state.todos.map(function (todo, index) {
+          return (0, _hyperapp.h)(
+            "div",
+            null,
+            (0, _hyperapp.h)("input", {
+              type: "checkbox",
+              checked: todo.completed,
               onclick: function onclick() {
-                return actions.removeTodo(todo.id);
+                return actions.handleCheckbox(index);
+              },
+              onkeydown: function onkeydown(e) {
+                return e.keyCode === 13 ? actions.addTodo : '';
               }
-            },
-            "\xD7"
-          )
-        );
+            }),
+            (0, _hyperapp.h)(
+              TodoListsItem,
+              {
+                "class": todo.completed ? "completed" : ""
+              },
+              todo.value
+            ),
+            (0, _hyperapp.h)(
+              "span",
+              {
+                onclick: function onclick() {
+                  return actions.removeTodo(todo.id);
+                }
+              },
+              "\xD7"
+            )
+          );
+        })
+      ),
+      (0, _hyperapp.h)(TodoInput, {
+        type: "text",
+        placeholder: "What needs to be done?",
+        value: state.todoValue,
+        oninput: function oninput(e) {
+          return actions.onInput(e.target.value);
+        },
+        onkeydown: function onkeydown(e) {
+          return e.keyCode === 13 ? actions.addTodo : '';
+        }
       })
-    ),
-    (0, _hyperapp.h)(TodoInput, {
-      type: "text",
-      placeholder: "What needs to be done?",
-      value: state.todoValue,
-      oninput: function oninput(e) {
-        return actions.onInput(e.target.value);
-      },
-      onkeydown: function onkeydown(e) {
-        return e.keyCode === 13 ? actions.addTodo : '';
-      }
-    })
+    )
   );
 };
 
