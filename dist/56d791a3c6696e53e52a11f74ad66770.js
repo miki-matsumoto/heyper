@@ -439,20 +439,26 @@ var ps = (0, _picostyle2.default)(_hyperapp.h);
 
 var STORAGE_KEY = 'MyNameIsBond';
 var WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+var MONTH = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 var fetchTodos = function fetchTodos() {
   return JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || [];
 };
 
+var today = new Date();
 var dayName = function dayName() {
-  var today = new Date();
   return WEEK[today.getDay()];
+};
+
+var todayDate = function todayDate() {
+  return MONTH[today.getMonth()] + "/" + today.getDate() + "/" + today.getFullYear();
 };
 
 var state = {
   todoValue: '',
   todos: fetchTodos(),
-  dayName: dayName()
+  dayName: dayName(),
+  todayDate: todayDate()
 };
 
 var actions = {
@@ -521,6 +527,8 @@ var view = function view(state, actions) {
     fontWeight: '500'
   });
 
+  var Date = ps('span')({});
+
   var TodoInput = ps('input')({
     position: 'absolute',
     bottom: '0',
@@ -530,6 +538,7 @@ var view = function view(state, actions) {
     borderRadius: '0 0 3px 3px',
     fontSize: '24px',
     fontWeight: '200',
+    background: '#f6f9fc',
     '::placeholder': {
       opacity: '.5'
     }
@@ -553,6 +562,11 @@ var view = function view(state, actions) {
         Week,
         null,
         state.dayName
+      ),
+      (0, _hyperapp.h)(
+        Date,
+        null,
+        state.todayDate
       ),
       (0, _hyperapp.h)(
         TodoLists,

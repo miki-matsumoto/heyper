@@ -5,20 +5,26 @@ const ps = picostyle(h)
 
 const STORAGE_KEY = 'MyNameIsBond'
 const WEEK = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const MONTH = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 const fetchTodos = () => {
   return JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || []
 }
 
+const today = new Date()
 const dayName = () => {
-  const today = new Date()
   return WEEK[today.getDay()]
+}
+
+const todayDate = () => {
+  return `${MONTH[today.getMonth()]}/${today.getDate()}/${today.getFullYear()}`
 }
 
 const state = {
   todoValue: '',
   todos: fetchTodos(),
-  dayName: dayName()
+  dayName: dayName(),
+  todayDate: todayDate()
 }
 
 const actions = {
@@ -77,6 +83,8 @@ const view = (state, actions) => {
     fontWeight: '500',
   })
 
+  const Date = ps('span')({})
+
   const TodoInput = ps('input')({
     position: 'absolute',
     bottom: '0',
@@ -86,6 +94,7 @@ const view = (state, actions) => {
     borderRadius: '0 0 3px 3px',
     fontSize: '24px',
     fontWeight: '200',
+    background: '#f6f9fc',
     '::placeholder': {
       opacity: '.5',
     }
@@ -104,6 +113,7 @@ const view = (state, actions) => {
     <Wrapper>
       <Content>
         <Week>{ state.dayName }</Week>
+        <Date>{ state.todayDate }</Date>
         <TodoLists>
         {
           state.todos.map((todo, index) => {
