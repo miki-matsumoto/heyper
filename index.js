@@ -66,11 +66,15 @@ const view = (state, actions) => {
     height: '550px',
     width: '550px',
     background: '#fff',
+    boxShadow: '0 50px 100px rgba(50,50,93,.1), 0 15px 35px rgba(50,50,93,.15), 0 5px 15px rgba(0,0,0,.1)',
     borderRadius: '3px',
   })
 
   const Week = ps('h1')({
     margin: '24px 0 24px 0',
+    color: '#32325d',
+    fontSize: '48px',
+    fontWeight: '500',
   })
 
   const TodoInput = ps('input')({
@@ -79,6 +83,7 @@ const view = (state, actions) => {
     left: '0',
     width: '100%',
     padding: '16px',
+    borderRadius: '0 0 3px 3px',
     fontSize: '24px',
     fontWeight: '200',
     '::placeholder': {

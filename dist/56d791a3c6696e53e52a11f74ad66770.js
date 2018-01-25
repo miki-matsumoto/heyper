@@ -69,7 +69,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({7:[function(require,module,exports) {
+})({6:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -353,7 +353,7 @@ function app(state, actions, view, container) {
     return element;
   }
 }
-},{}],6:[function(require,module,exports) {
+},{}],7:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -510,11 +510,15 @@ var view = function view(state, actions) {
     height: '550px',
     width: '550px',
     background: '#fff',
+    boxShadow: '0 50px 100px rgba(50,50,93,.1), 0 15px 35px rgba(50,50,93,.15), 0 5px 15px rgba(0,0,0,.1)',
     borderRadius: '3px'
   });
 
   var Week = ps('h1')({
-    margin: '24px 0 24px 0'
+    margin: '24px 0 24px 0',
+    color: '#32325d',
+    fontSize: '48px',
+    fontWeight: '500'
   });
 
   var TodoInput = ps('input')({
@@ -523,6 +527,7 @@ var view = function view(state, actions) {
     left: '0',
     width: '100%',
     padding: '16px',
+    borderRadius: '0 0 3px 3px',
     fontSize: '24px',
     fontWeight: '200',
     '::placeholder': {
@@ -601,7 +606,7 @@ var view = function view(state, actions) {
 };
 
 var main = exports.main = (0, _hyperapp.app)(state, actions, view, document.body);
-},{"hyperapp":7,"picostyle":6}],0:[function(require,module,exports) {
+},{"hyperapp":6,"picostyle":7}],0:[function(require,module,exports) {
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
 function Module() {
@@ -619,7 +624,7 @@ function Module() {
 module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
-  var ws = new WebSocket('ws://' + window.location.hostname + ':57184/');
+  var ws = new WebSocket('ws://' + window.location.hostname + ':61052/');
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 
