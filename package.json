@@ -6,6 +6,7 @@
     "picostyle": "^0.2.0"
   },
   "scripts": {
-    "dev": "./node_modules/.bin/parcel index.html"
+    "dev": "./node_modules/.bin/parcel index.html",
+    "build": "parcel build index.html"
   }
 }
