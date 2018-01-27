@@ -69,7 +69,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({6:[function(require,module,exports) {
+})({7:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -353,7 +353,7 @@ function app(state, actions, view, container) {
     return element;
   }
 }
-},{}],7:[function(require,module,exports) {
+},{}],6:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -451,7 +451,7 @@ var dayName = function dayName() {
 };
 
 var todayDate = function todayDate() {
-  return MONTH[today.getMonth()] + "/" + today.getDate() + "/" + today.getFullYear();
+  return MONTH[today.getMonth()] + " " + today.getDate() + ", " + today.getFullYear();
 };
 
 var state = {
@@ -515,19 +515,22 @@ var view = function view(state, actions) {
     position: 'relative',
     height: '550px',
     width: '550px',
+    padding: '48px',
     background: '#fff',
     boxShadow: '0 50px 100px rgba(50,50,93,.1), 0 15px 35px rgba(50,50,93,.15), 0 5px 15px rgba(0,0,0,.1)',
     borderRadius: '3px'
   });
 
   var Week = ps('h1')({
-    margin: '24px 0 24px 0',
+    margin: '0 0 8px 0',
     color: '#32325d',
     fontSize: '48px',
     fontWeight: '500'
   });
 
-  var Date = ps('span')({});
+  var Date = ps('span')({
+    color: '#6b7c93'
+  });
 
   var TodoInput = ps('input')({
     position: 'absolute',
@@ -539,19 +542,49 @@ var view = function view(state, actions) {
     fontSize: '24px',
     fontWeight: '200',
     background: '#f6f9fc',
+    color: '#32325d',
+    letterSpacing: '1px',
     '::placeholder': {
       opacity: '.5'
     }
   });
 
-  var Checkbox = ps('input')({});
   var TodoLists = ps('ul')({
+    margin: '16px 0 0 0',
+    textAlign: 'left',
     listStyleType: 'none'
   });
 
   var TodoListsItem = ps('li')({
-    display: 'inline-block'
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    height: '50px',
+    fontSize: '24px',
+    letterSpacing: '1px',
+    transition: 'all 240ms ease-in-out',
+    ':hover': {},
+    '.completed': {
+      opacity: '.5',
+      fontSize: '16px'
+    },
+    ' .todo-value': {
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      color: '#32325d'
+    },
+    ' .delete-button': {
+      color: 'red',
+      fontSize: '20px'
+    }
   });
+
+  var Checkbox = ps('input')({
+    position: 'absolute',
+    right: '0'
+  });
+
   return (0, _hyperapp.h)(
     Wrapper,
     null,
@@ -573,34 +606,22 @@ var view = function view(state, actions) {
         null,
         state.todos.map(function (todo, index) {
           return (0, _hyperapp.h)(
-            "div",
-            null,
-            (0, _hyperapp.h)("input", {
+            TodoListsItem,
+            {
+              "class": todo.completed ? "completed" : ""
+            },
+            (0, _hyperapp.h)(
+              "span",
+              { "class": "todo-value" },
+              todo.value
+            ),
+            (0, _hyperapp.h)(Checkbox, {
               type: "checkbox",
               checked: todo.completed,
               onclick: function onclick() {
                 return actions.handleCheckbox(index);
-              },
-              onkeydown: function onkeydown(e) {
-                return e.keyCode === 13 ? actions.addTodo : '';
               }
-            }),
-            (0, _hyperapp.h)(
-              TodoListsItem,
-              {
-                "class": todo.completed ? "completed" : ""
-              },
-              todo.value
-            ),
-            (0, _hyperapp.h)(
-              "span",
-              {
-                onclick: function onclick() {
-                  return actions.removeTodo(todo.id);
-                }
-              },
-              "\xD7"
-            )
+            })
           );
         })
       ),
@@ -612,7 +633,7 @@ var view = function view(state, actions) {
           return actions.onInput(e.target.value);
         },
         onkeydown: function onkeydown(e) {
-          return e.keyCode === 13 ? actions.addTodo : '';
+          return e.keyCode === 13 ? actions.addTodo() : '';
         }
       })
     )
@@ -620,7 +641,7 @@ var view = function view(state, actions) {
 };
 
 var main = exports.main = (0, _hyperapp.app)(state, actions, view, document.body);
-},{"hyperapp":6,"picostyle":7}],0:[function(require,module,exports) {
+},{"hyperapp":7,"picostyle":6}],0:[function(require,module,exports) {
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
 function Module() {
@@ -638,7 +659,7 @@ function Module() {
 module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
-  var ws = new WebSocket('ws://' + window.location.hostname + ':61052/');
+  var ws = new WebSocket('ws://' + window.location.hostname + ':50669/');
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 

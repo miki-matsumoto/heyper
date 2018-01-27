@@ -17,7 +17,16 @@ h1, ul, input {
 
 input {
   outline: 0;
+  /* -webkit-appearance: none; */
 }
+/*
+input[type="checkbox"]:checked {
+  height: 15px;
+  width: 15px;
+  background: #24b47e;
+  border: none;
+}
+*/
 
 ul {
   -webkit-appearance: none;

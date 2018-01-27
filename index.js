@@ -17,7 +17,7 @@ const dayName = () => {
 }
 
 const todayDate = () => {
-  return `${MONTH[today.getMonth()]}/${today.getDate()}/${today.getFullYear()}`
+  return `${MONTH[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`
 }
 
 const state = {
@@ -71,19 +71,22 @@ const view = (state, actions) => {
     position: 'relative',
     height: '550px',
     width: '550px',
+    padding: '48px',
     background: '#fff',
     boxShadow: '0 50px 100px rgba(50,50,93,.1), 0 15px 35px rgba(50,50,93,.15), 0 5px 15px rgba(0,0,0,.1)',
     borderRadius: '3px',
   })
 
   const Week = ps('h1')({
-    margin: '24px 0 24px 0',
+    margin: '0 0 8px 0',
     color: '#32325d',
     fontSize: '48px',
     fontWeight: '500',
   })
 
-  const Date = ps('span')({})
+  const Date = ps('span')({
+    color: '#6b7c93',
+  })
 
   const TodoInput = ps('input')({
     position: 'absolute',
@@ -95,20 +98,50 @@ const view = (state, actions) => {
     fontSize: '24px',
     fontWeight: '200',
     background: '#f6f9fc',
+    color: '#32325d',
+    letterSpacing: '1px',
     '::placeholder': {
       opacity: '.5',
     }
   })
 
-  const Checkbox = ps('input')({
-  })
   const TodoLists = ps('ul')({
+    margin: '16px 0 0 0',
+    textAlign: 'left',
     listStyleType: 'none'
   })
 
   const TodoListsItem = ps('li')({
-    display: 'inline-block',
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    height: '50px',
+    fontSize: '24px',
+    letterSpacing: '1px',
+    transition: 'all 240ms ease-in-out',
+    ':hover': {
+    },
+    '.completed': {
+      opacity: '.5',
+      fontSize: '16px'
+    },
+    ' .todo-value': {
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      color: '#32325d'
+    },
+    ' .delete-button': {
+      color: 'red',
+      fontSize: '20px'
+    }
   })
+
+  const Checkbox = ps('input')({
+    position: 'absolute',
+    right: '0',
+  })
+
   return(
     <Wrapper>
       <Content>
@@ -118,22 +151,23 @@ const view = (state, actions) => {
         {
           state.todos.map((todo, index) => {
             return(
-              <div>
-                <input
-                  type="checkbox"
-                  checked={todo.completed}
-                  onclick={() => actions.handleCheckbox(index)}
-                  onkeydown={e => e.keyCode === 13 ? actions.addTodo : ''}
-                />
-
                 <TodoListsItem
                 class={todo.completed ? "completed" : ""}
-                >{todo.value}</TodoListsItem>
+                >
+                <span class="todo-value">{todo.value}</span>
 
-                <span
-                  onclick={() => actions.removeTodo(todo.id)}
-                >×</span>
-              </div>
+                  <Checkbox
+                    type="checkbox"
+                    checked={todo.completed}
+                    onclick={() => actions.handleCheckbox(index)}
+                  ></Checkbox>
+
+                {/* <span
+                    class="delete-button"
+                    onclick={() => actions.removeTodo(todo.id)}
+                  >×</span>
+                */}
+                </TodoListsItem>
             )
           })
         }
@@ -143,7 +177,7 @@ const view = (state, actions) => {
           placeholder="What needs to be done?"
           value={state.todoValue}
           oninput={e => actions.onInput(e.target.value)}
-          onkeydown={e => e.keyCode === 13 ? actions.addTodo : ''}
+          onkeydown={e => e.keyCode === 13 ? actions.addTodo() : ''}
         />
         { /*<button
           onclick={actions.addTodo}
