@@ -3,7 +3,7 @@
 }
 
 html, body {
-  font-family: "Avenir Next W01","AvenirNextLTW01-Medium", "Hiragino Kaku Gothic Pro", "arial", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "游ゴシック", "Yu Gothi    c", "メイリオ", Meiryo, Osaka, sans-serif;
+  font-family: "Avenir Next W01","AvenirNextLTW01-Medium";
   margin: 0;
   background: #f6f9fc;
   height: 100%;
@@ -13,20 +13,8 @@ h1, ul, input {
   margin: 0;
   padding: 0;
   border: 0;
-}
-
-input {
   outline: 0;
-  /* -webkit-appearance: none; */
 }
-/*
-input[type="checkbox"]:checked {
-  height: 15px;
-  width: 15px;
-  background: #24b47e;
-  border: none;
-}
-*/
 
 ul {
   -webkit-appearance: none;

@@ -179,10 +179,6 @@ const view = (state, actions) => {
           oninput={e => actions.onInput(e.target.value)}
           onkeydown={e => e.keyCode === 13 ? actions.addTodo() : ''}
         />
-        { /*<button
-          onclick={actions.addTodo}
-        >Add</button>
-          */}
       </Content>
     </Wrapper>
   )
