@@ -140,6 +140,15 @@ const view = (state, actions) => {
   const Checkbox = ps('input')({
     position: 'absolute',
     right: '0',
+    display: 'block',
+    width: '15px',
+    height: '15px',
+    margin: '0 1px 0 0',
+    background: '#6b7c93',
+    borderRadius: '50%',
+    '::before': {
+    },
+    // backgroundColor: '#6772e5',
   })
 
   return(

@@ -69,7 +69,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({6:[function(require,module,exports) {
+})({7:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -353,7 +353,7 @@ function app(state, actions, view, container) {
     return element;
   }
 }
-},{}],5:[function(require,module,exports) {
+},{}],6:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -582,7 +582,15 @@ var view = function view(state, actions) {
 
   var Checkbox = ps('input')({
     position: 'absolute',
-    right: '0'
+    right: '0',
+    display: 'block',
+    width: '15px',
+    height: '15px',
+    margin: '0 1px 0 0',
+    background: '#6b7c93',
+    borderRadius: '50%',
+    '::before': {}
+    // backgroundColor: '#6772e5',
   });
 
   return (0, _hyperapp.h)(
@@ -641,7 +649,7 @@ var view = function view(state, actions) {
 };
 
 var main = exports.main = (0, _hyperapp.app)(state, actions, view, document.body);
-},{"hyperapp":6,"picostyle":5}],0:[function(require,module,exports) {
+},{"hyperapp":7,"picostyle":6}],0:[function(require,module,exports) {
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
 function Module() {
@@ -659,7 +667,7 @@ function Module() {
 module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
-  var ws = new WebSocket('ws://' + window.location.hostname + ':53823/');
+  var ws = new WebSocket('ws://' + window.location.hostname + ':54350/');
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 
