@@ -566,9 +566,13 @@ var view = function view(state, actions) {
     ':hover': {},
     '.completed': {
       opacity: '.5',
-      fontSize: '16px'
+      fontSize: '16px',
+      ' span': {
+        textDecoration: 'line-through'
+      }
     },
     ' .todo-value': {
+      paddingRight: '16px',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
       overflow: 'hidden',
@@ -667,7 +671,7 @@ function Module() {
 module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
-  var ws = new WebSocket('ws://' + window.location.hostname + ':54350/');
+  var ws = new WebSocket('ws://' + window.location.hostname + ':55300/');
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
 

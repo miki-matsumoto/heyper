@@ -123,9 +123,13 @@ const view = (state, actions) => {
     },
     '.completed': {
       opacity: '.5',
-      fontSize: '16px'
+      fontSize: '16px',
+      ' span': {
+        textDecoration: 'line-through',
+      }
     },
     ' .todo-value': {
+      paddingRight: '16px',
       whiteSpace: 'nowrap',
       textOverflow: 'ellipsis',
       overflow: 'hidden',
