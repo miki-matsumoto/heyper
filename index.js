@@ -93,7 +93,7 @@ const view = (state, actions) => {
     bottom: '0',
     left: '0',
     width: '100%',
-    padding: '16px',
+    padding: '16px 48px',
     borderRadius: '0 0 3px 3px',
     fontSize: '24px',
     fontWeight: '200',
@@ -119,8 +119,6 @@ const view = (state, actions) => {
     fontSize: '24px',
     letterSpacing: '1px',
     transition: 'all 240ms ease-in-out',
-    ':hover': {
-    },
     '.completed': {
       opacity: '.5',
       fontSize: '16px',
@@ -150,9 +148,6 @@ const view = (state, actions) => {
     margin: '0 1px 0 0',
     background: '#6b7c93',
     borderRadius: '50%',
-    '::before': {
-    },
-    // backgroundColor: '#6772e5',
   })
 
   return(
@@ -191,6 +186,7 @@ const view = (state, actions) => {
           value={state.todoValue}
           oninput={e => actions.onInput(e.target.value)}
           onkeydown={e => e.keyCode === 13 ? actions.addTodo() : ''}
+          oncreate={e => e.focus()}
         />
       </Content>
     </Wrapper>
