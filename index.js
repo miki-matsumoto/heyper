@@ -194,3 +194,4 @@ const view = (state, actions) => {
 }
 
 export const main = app(state, actions, view, document.body)
+
